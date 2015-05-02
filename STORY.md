@@ -29,12 +29,18 @@ You go around the long way and have to dodge some extra bad guys. Arrive in the 
 END FORK:
 You hear screaming at the end of the hall. You run down the hall and arrive at a big room. Your friend is there at one end, the love and the little brother are there too.
 
-FORK 1: If your friend is no longer with you, and you go with him, everyone dies. You are trapped and the game ends with all the characters dying.
+How does it end? Depends how everybody is feeling:
 
-FORK 2: If your friend is no longer with you, and you don’t go with the guy.  Then you go to save your brother and the friend has already traded and trapped you to sacrifice you for his love. He confronts you as you go to save the brother and shoots you or something. You die with your brother and him and his love run off, their happy ending.  
-
-FORK 3: Friend was with you & likes you and you go with the guy: Friend sacrifices self for you.
-
-FORK 4: Friend loves you, you didn’t go with guy: everyone is happy. You payed the toll and liked the love story.
-
-FORK 5: Friend doesn’t like you but was with you, you like the friend a lot, and you didn’t go with the guy: you sacrifice yourself
+* Your friend hates you
+  * You feel bad
+    * You freeze. Everyone dies. You are trapped and the game ends with all the characters dying. (FORK 1)
+  * You feel good
+    * You don’t like your friend
+      * Then you go to save your brother and the friend has already traded and trapped you to sacrifice you for his love. He confronts you as you go to save the brother and shoots you or something. You die with your brother and him and his love run off, their happy ending. (FORK 2)
+    * You like your friend
+    * You sacrifice yourself, your friend saves his love and your brother and they escape (FORK 5)
+* Your friend likes you
+  * You feel bad
+    * You freeze, but friend sacrifices self for you. You get trapped in the cellar with other characters including the love and brother. The friend defeats the bad guys and saves the day, but as you guys are escaping gets caught and in the end dies. You make sure the love and brother escape. Semi-happy ending. (FORK 3)
+  * You feel good
+    * Everyone is happy. You and your friend work together to save everyone. (FORK 4)
