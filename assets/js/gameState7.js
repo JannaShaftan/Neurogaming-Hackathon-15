@@ -1,3 +1,5 @@
+// In which we follow a stranger into the castle
+
 var gameState7 = function(game) {};
 
 gameState7.prototype = {

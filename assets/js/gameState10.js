@@ -1,3 +1,5 @@
+// In which we encounter our final scene
+
 var gameState10 = function(game) {};
 
 gameState10.prototype = {

@@ -1,3 +1,5 @@
+// In which we are beset by guards
+
 var gameState8 = function(game) {};
 
 gameState8.prototype = {

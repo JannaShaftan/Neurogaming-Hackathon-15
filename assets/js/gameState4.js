@@ -1,3 +1,5 @@
+// In which we make our camp
+
 var gameState4 = function(game) {};
 
 gameState4.prototype = {

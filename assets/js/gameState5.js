@@ -1,3 +1,5 @@
+// In which we are attacked and must run away
+
 var gameState5 = function(game) {};
 
 gameState5.prototype = {

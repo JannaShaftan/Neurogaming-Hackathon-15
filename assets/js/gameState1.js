@@ -1,3 +1,5 @@
+// In which the scene is laid out
+
 var gameState1 = function(game) {};
 
 var map;

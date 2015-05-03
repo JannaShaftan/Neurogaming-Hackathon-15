@@ -1,3 +1,5 @@
+// In which we enter the castle
+
 var gameState9 = function(game) {};
 
 gameState9.prototype = {

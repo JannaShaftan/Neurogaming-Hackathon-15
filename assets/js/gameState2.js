@@ -1,3 +1,5 @@
+// In which we meet our friend
+
 var gameState2 = function(game) {};
 
 gameState2.prototype = {
