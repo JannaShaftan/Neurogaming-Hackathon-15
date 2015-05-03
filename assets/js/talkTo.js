@@ -7,6 +7,8 @@ talkTo.prototype = {
 
   create: function () {
     game.add.sprite(0, 0, "sky");
+    this.title = this.game.add.text(10, 250, "How do you feel about your new friend?", {fill: "#fff"});
+    // this.game.add.text(this, 0, 0, "Hello World");
   },
 
   nextState: function () {
