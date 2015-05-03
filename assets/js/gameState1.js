@@ -59,6 +59,10 @@ var gameState1 = function(game) {
             this.car.anchor.set(0.5);
 
             this.map.setCollision(141, true, this.layer);
+            this.map.setCollision(151, true, this.layer);
+            this.map.setCollision(165, true, this.layer);
+
+
 
             this.physics.arcade.enable(this.car);
 

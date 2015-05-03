@@ -38,6 +38,10 @@ var gameState3 = function (game) {
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
 
+        nextState: function () {
+            this.game.state.start("GameState4");
+        },
+
         create: function () {
 
             this.background = this.game.add.sprite(0, 0, "profile");
@@ -65,6 +69,9 @@ var gameState3 = function (game) {
 
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
+
+            this.button = this.game.add.button(400, 350, "next", this.nextState, this);
+            this.button.anchor.set(0.5, 0.5);
 
         },
 
