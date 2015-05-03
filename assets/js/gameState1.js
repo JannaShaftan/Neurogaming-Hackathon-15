@@ -1,8 +1,16 @@
+var characterLike = 20
+var friendLike = 30
+var engine = EmoEngine.instance();
+var es = new EmoState();
+var music;
+
 var gameState1 = function(game) {
 
         this.map = null;
         this.layer = null;
         this.car = null;
+
+        this.rightEdge = null;
 
         this.safetile = 177;
         this.gridsize = 32;
@@ -28,7 +36,7 @@ var gameState1 = function(game) {
         },
 
         nextState: function () {
-            this.game.state.start("GameState2");
+            game.state.start("GameState2");
             },
 
         preload: function () {
@@ -41,8 +49,8 @@ var gameState1 = function(game) {
             this.load.image('grass', 'grass.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.spritesheet('bro', 'bro.png', 32, 48);
-            this.game.load.json('brospeech', 'brospeech.json');
-
+            this.load.image("next", "assets/img/next.png");
+            this.load.audio('boden', ['assets/music1.mp3' ]);
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -83,12 +91,19 @@ var gameState1 = function(game) {
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
 
-            this.button = this.add.button(400, 350, "next", this.nextState, this);
-            this.button.anchor.set(0.5, 0.5);
+            //enable right edge
+            this.rightEdge = game.add.sprite(790, 0, "next");
+            this.physics.enable(this.rightEdge);
+
+            music = game.add.audio('boden');
+
+            music.play();
 
         },
 
         checkKeys: function () {
+            //see if we run over right edge
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
@@ -220,7 +235,8 @@ var gameState1 = function(game) {
 
         // },
 
-        stopAnimation: function(){
+        stopAnimation: function() {
+
             //  This will just top the animation from running, freezing it at its current frame
             // greenJellyfish.animations.stop();
 
@@ -230,66 +246,18 @@ var gameState1 = function(game) {
         },
 
         update: function () {
-
-            // var timer_start = false;
-            // var time = 0;
-            // if (timer_start === true) {
-            //   time++;
-            // if (time === 20) {
-            //   this.scoreText.text = "";
-            //   console.log("it works")
-            // };
-           // }
-
-            function updateText() {
-              this.scoreText.setText("works");
-              //game.time.events.add(500, this.scoreText.destroy(), this.scoreText);
-
-            };
-
-            /*function destroyText(){
-              this.scoreText.destroy();
-            }*/
-
             this.game.physics.arcade.collide(this.car, this.bro, function(){
-              this.scoreText=game.add.text(640, 250, 'Hi, Im your brother. ', {fontSize:'20px', fill: '#fff'}
-                  );
-              this.scoreText.anchor.set(0.5);
-              //pauseButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-              // this.game.paused;
-              game.input.onDown.addOnce(updateText, this);
-              // game.time.events.add(500, this.scoreText.setText(""), this.scoreText);
-              // this.scoreText=game.add.text(640, 250, "Im your brother :-)", {fontSize:'20px', fill: '#fff'});
-              //game.time.events.add(1000, this.scoreText.destroy, this.scoreText);
-
-              //this.scoreText.setText("bye");
-              //this.scoreText = this.game.time.events.add(Phaser.Timer.SECOND * 2, 'ay0o', this);
-
-              timer_start=true;
-
-              //var speech = game.cache.getJSON('brospeech');
-              //console.log(speech);
-              //var convo = speech['conversations']["unfriendly-jan-pre-quest"];
-              //console.log(convo);
-              /*this.game.paused = true;
-              this.activeConversation = convo;
-              this.updateConversationState(this.activeConversation.start);*/
-
-
-              /*this.bro.prototype.stopConversation = function() {
-              this.activeConversation = null;
-              this.activeConversationState = null;
-              this.game.paused = false;
-          };
-
-              this.bro.prototype.updateConversationState = function(stateId) {
-              this.activeConversationState = stateId;
-              // $showConversationState is a jQuery function that manages the DOM
-              $showConversationState(this.activeConversation, stateId);
-          };*/
-
+                var state = emotions();
+            if (state === true){
+                friendLike += 5;
+                console.log(1)
+                arc1();
+            }else{
+                friendLike -=5;
+                console.log(2)
+                arc1();
+            }
             });
-
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
 
@@ -355,3 +323,38 @@ var gameState1 = function(game) {
     };
 
     //game.state.add('Game', PhaserGame, true);
+
+    function emotions(){
+    engine.Connect(); //Connect to EPOC
+    var emo = es.IS_PerformanceMetricGetInstantaneousExcitementScore() 
+    var emo2 = es.AffectivGetExcitementShortTermScore()
+    // var emo3 = es.IS_PerformanceMetricGetEngagementBoredomScore()
+    // var emo4 = es.IS_PerformanceMetricGetStressScore ()
+    // console.log("stress" = emo4)
+    // console.log( "boredom"  = emo3)
+    console.log(emo)
+    console.log(emo2)
+    if( emo > .10){
+        if(emo < 2.0){
+            console.log("not happy enough")
+            return false;
+        }else{
+            console.log("Happy enough")
+            return true;
+        }
+    }else{
+        if(emo2 > .10 ){
+            if(emo2 < 2.0){
+                console.log("not happy enough")
+                return false;
+            }else{
+                console.log("Happy enough")
+                return true;
+            }
+        }else{
+            console.log("default happy")
+            return true;
+        }
+    }
+    
+}

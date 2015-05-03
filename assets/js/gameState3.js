@@ -3,6 +3,8 @@ var gameState3 = function (game) {
         this.layer = null;
         this.car = null;
 
+        this.rightEdge = null;
+
         this.safetile = 16;
         this.gridsize = 32;
 
@@ -34,12 +36,13 @@ var gameState3 = function (game) {
             this.load.tilemap('map', 'lands.json', null, Phaser.Tilemap.TILED_JSON);
             this.load.image('tiles', 'dtiles.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
+            this.load.image("next", "assets/img/next.png");
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
 
         nextState: function () {
-            this.game.state.start("GameState4");
+            game.state.start("GameState4");
         },
 
         create: function () {
@@ -70,12 +73,15 @@ var gameState3 = function (game) {
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
 
-            this.button = this.game.add.button(400, 350, "next", this.nextState, this);
-            this.button.anchor.set(0.5, 0.5);
+            //enable right edge
+            this.rightEdge = game.add.sprite(790, 0, "next");
+            this.physics.enable(this.rightEdge);
 
         },
 
         checkKeys: function () {
+            //see if we run over right edge
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {

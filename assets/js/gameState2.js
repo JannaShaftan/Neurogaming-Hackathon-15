@@ -1,8 +1,13 @@
+var villain1;
+var villain2;
+
 var gameState2 = function(game) {
 
         this.map = null;
         this.layer = null;
         this.car = null;
+
+        this.rightEdge = null;
 
         this.safetile = 16;
         this.gridsize = 32;
@@ -28,7 +33,7 @@ var gameState2 = function(game) {
         },
 
         nextState: function () {
-            this.game.state.start("GameState3");
+            game.state.start("GameState3");
             },
 
         preload: function () {
@@ -40,6 +45,8 @@ var gameState2 = function(game) {
             this.load.tilemap('map', 'lands.json', null, Phaser.Tilemap.TILED_JSON);
             this.load.image('tiles', 'dtiles.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
+            this.load.image("next", "assets/img/next.png");
+            this.load.image("baddie", "assets/img/baddie.png");
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -72,12 +79,21 @@ var gameState2 = function(game) {
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
 
-            this.button = this.game.add.button(400, 350, "next", this.nextState, this);
-            this.button.anchor.set(0.5, 0.5);
+            //enable right edge
+            this.rightEdge = game.add.sprite(790, 0, "next");
+            this.physics.enable(this.rightEdge);
+
+            villain1 = game.add.sprite(300, 0, "baddie");
+            villain2 = game.add.sprite(600, 590, "baddie");
+            game.physics.enable(villain1);
+            game.physics.enable(villain2);
 
         },
 
         checkKeys: function () {
+            //see if we run over right edge
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
+
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
@@ -208,7 +224,10 @@ var gameState2 = function(game) {
         //     return "90";
 
         // },
-
+         killChar: function () {
+        //restart game
+        game.state.start("GameState1");
+      },
         stopAnimation: function() {
 
             //  This will just top the animation from running, freezing it at its current frame
@@ -222,6 +241,7 @@ var gameState2 = function(game) {
         update: function () {
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.car.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.car.y), this.gridsize) / this.gridsize;
@@ -239,6 +259,12 @@ var gameState2 = function(game) {
             if (flag) {
                 this.stopAnimation();
             }
+
+            this.game.physics.arcade.collide(this.car, villain1, this.killChar);
+            this.game.physics.arcade.collide(this.car, villain2, this.killChar);
+
+            villain1.body.velocity.y = 20;
+            villain2.body.velocity.y = -20;
 
             // if (this.speed === 0) {
             //     this.car.animations.stop();

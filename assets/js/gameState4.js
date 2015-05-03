@@ -3,6 +3,8 @@ var gameState4 = function (game) {
         this.layer = null;
         this.car = null;
 
+        this.rightEdge = null;
+
         this.safetile = 213;
         this.gridsize = 32;
 
@@ -34,8 +36,15 @@ var gameState4 = function (game) {
             this.load.tilemap('map', 'lands.json', null, Phaser.Tilemap.TILED_JSON);
             this.load.image('ctiles', 'cTiles.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
+            this.load.spritesheet('princess', 'princess.png', 30, 47);
+            this.load.spritesheet('bahamut', 'bahamut.png', 89, 94);
+            this.load.image("next", "assets/img/next.png");
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
+        },
+
+        nextState: function () {
+            game.state.start("GameState5");
         },
 
         create: function () {
@@ -49,15 +58,23 @@ var gameState4 = function (game) {
 
             this.physics.arcade.enable(this.layer);
             this.car = this.add.sprite(16, 320, 'car');
+            this.princess=this.add.sprite(700, 300, 'princess');
+            this.bahamut = this.add.sprite(400,400, 'bahamut');
             this.car.anchor.set(0.5);
+            this.princess.anchor.set(0.5);
+            this.bahamut.anchor.set(0.5);
 
             this.map.setCollision(223, true, this.layer);
             this.map.setCollision(314, true, this.layer);
             this.map.setCollision(244, true, this.layer);
             this.map.setCollision(246, true, this.layer);
 
+            //this.princess.body.immovable=true;
+            //this.bahamut.body.immovable=true;
 
             this.physics.arcade.enable(this.car);
+            //this.physics.arcade.enable(this.princess);
+            //this.physics.arcade.enable(this.bahamut);
 
             this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -68,10 +85,18 @@ var gameState4 = function (game) {
 
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
+            this.bahamut.frame=4;
+
+            //enable right edge
+            this.rightEdge = game.add.sprite(790, 0, "next");
+            this.physics.enable(this.rightEdge);
 
         },
 
         checkKeys: function () {
+            //see if we run over right edge
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
+
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
@@ -214,6 +239,26 @@ var gameState4 = function (game) {
         },
 
         update: function () {
+
+            /*this.game.physics.arcade.collide(this.car, this.princess, function(){
+                var state = emotions();
+            if (state === true){
+                friendLike += 5;
+                console.log(1)
+                arc1();
+            }else{
+                friendLike -=5;
+                console.log(2)
+                arc1();
+            }
+            });
+
+            this.game.physics.arcade.collide(this.car, this.bahamut, function(){
+                alert("GAME OVERRRRRR!!!!");
+            });*/
+
+
+
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
 
