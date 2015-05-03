@@ -4,6 +4,8 @@ var gameState1 = function(game) {
         this.layer = null;
         this.car = null;
 
+        this.rightEdge = null;
+
         this.safetile = 177;
         this.gridsize = 32;
 
@@ -28,7 +30,7 @@ var gameState1 = function(game) {
         },
 
         nextState: function () {
-            this.game.state.start("GameState2");
+            game.state.start("GameState2");
             },
 
         preload: function () {
@@ -41,6 +43,7 @@ var gameState1 = function(game) {
             this.load.image('grass', 'grass.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.spritesheet('bro', 'bro.png', 32, 48);
+            this.load.image("next", "assets/img/next.png");
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -81,12 +84,15 @@ var gameState1 = function(game) {
             this.move(Phaser.RIGHT);
             this.car.animations.play('right');
 
-            this.button = this.add.button(400, 350, "next", this.nextState, this);
-            this.button.anchor.set(0.5, 0.5);
+            //enable right edge
+            this.rightEdge = game.add.sprite(790, 0, "next");
+            this.physics.enable(this.rightEdge);
 
         },
 
         checkKeys: function () {
+            //see if we run over right edge
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
