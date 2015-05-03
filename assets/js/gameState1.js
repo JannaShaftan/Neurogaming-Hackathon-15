@@ -2,11 +2,9 @@
 
 var gameState1 = function(game) {};
 
-var map;
-var layer;
-
 var cursors;
 var sprite;
+var rightEdge;
 
 gameState1.prototype = {
   preload: function () {
@@ -18,40 +16,41 @@ gameState1.prototype = {
   create: function () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //sprites to be created
-    sprite = game.add.sprite(0, 0, "star");
+    sprite = game.add.sprite(0, 300, "star");
     game.physics.enable(sprite);
 
-    cursors = game.input.keyboard.createCursorKeys();
+    //enable right edge
+    rightEdge = game.add.sprite(790, 0, "next");
+    game.physics.enable(rightEdge);
 
-    this.button = this.game.add.button(400, 350, "next", this.nextState, this);
-    this.button.anchor.set(0.5, 0.5);
+    cursors = game.input.keyboard.createCursorKeys();
   },
 
   nextState: function () {
-    this.game.state.start("GameState2");
+    game.state.start("GameState2");
   },
 
   update: function () {
-    //things for game to check
-    game.physics.arcade.collide(sprite, layer);
+    //see if we run over right edge
+    this.game.physics.arcade.collide(sprite, rightEdge, this.nextState);
 
+    //move the main sprite
     sprite.body.velocity.x = 0;
     sprite.body.velocity.y = 0;
     sprite.body.angularVelocity = 0;
 
     if (cursors.left.isDown)
     {
-        sprite.body.angularVelocity = -200;
+      sprite.body.angularVelocity = -200;
     }
     else if (cursors.right.isDown)
     {
-        sprite.body.angularVelocity = 200;
+      sprite.body.angularVelocity = 200;
     }
 
     if (cursors.up.isDown)
     {
-        sprite.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(sprite.angle, 300));
+      sprite.body.velocity.copyFrom(game.physics.arcade.velocityFromAngle(sprite.angle, 300));
     }
   }
-
 }
