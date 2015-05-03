@@ -2,6 +2,7 @@ var characterLike = 20
 var friendLike = 30
 var engine = EmoEngine.instance();
 var es = new EmoState();
+var music;
 
 var gameState1 = function(game) {
 
@@ -49,6 +50,7 @@ var gameState1 = function(game) {
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.spritesheet('bro', 'bro.png', 32, 48);
             this.load.image("next", "assets/img/next.png");
+            this.load.audio('boden', ['assets/music1.mp3' ]);
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -92,6 +94,10 @@ var gameState1 = function(game) {
             //enable right edge
             this.rightEdge = game.add.sprite(790, 0, "next");
             this.physics.enable(this.rightEdge);
+
+            music = game.add.audio('boden');
+
+            music.play();
 
         },
 

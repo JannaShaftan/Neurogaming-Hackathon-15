@@ -1,3 +1,6 @@
+var villain1;
+var villain2;
+
 var gameState2 = function(game) {
 
         this.map = null;
@@ -43,6 +46,7 @@ var gameState2 = function(game) {
             this.load.image('tiles', 'dtiles.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.image("next", "assets/img/next.png");
+            this.load.image("baddie", "assets/img/baddie.png");
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -78,6 +82,11 @@ var gameState2 = function(game) {
             //enable right edge
             this.rightEdge = game.add.sprite(790, 0, "next");
             this.physics.enable(this.rightEdge);
+
+            villain1 = game.add.sprite(300, 0, "baddie");
+            villain2 = game.add.sprite(600, 590, "baddie");
+            game.physics.enable(villain1);
+            game.physics.enable(villain2);
 
         },
 
@@ -215,7 +224,10 @@ var gameState2 = function(game) {
         //     return "90";
 
         // },
-
+         killChar: function () {
+        //restart game
+        game.state.start("GameState1");
+      },
         stopAnimation: function() {
 
             //  This will just top the animation from running, freezing it at its current frame
@@ -229,6 +241,7 @@ var gameState2 = function(game) {
         update: function () {
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
+            this.game.physics.arcade.collide(this.car, this.rightEdge, this.nextState);
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.car.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.car.y), this.gridsize) / this.gridsize;
@@ -246,6 +259,12 @@ var gameState2 = function(game) {
             if (flag) {
                 this.stopAnimation();
             }
+
+            this.game.physics.arcade.collide(this.car, villain1, this.killChar);
+            this.game.physics.arcade.collide(this.car, villain2, this.killChar);
+
+            villain1.body.velocity.y = 20;
+            villain2.body.velocity.y = -20;
 
             // if (this.speed === 0) {
             //     this.car.animations.stop();
