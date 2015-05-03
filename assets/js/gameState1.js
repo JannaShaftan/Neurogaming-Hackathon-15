@@ -50,7 +50,8 @@ var gameState1 = function(game) {
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.spritesheet('bro', 'bro.png', 32, 48);
             this.load.image("next", "assets/img/next.png");
-            this.load.audio('boden', ['assets/music1.mp3' ]);
+            // this.load.audio('boden', ['assets/music1.mp3' ]);
+            this.game.load.json('brospeech', 'brospeech.json');
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -235,8 +236,7 @@ var gameState1 = function(game) {
 
         // },
 
-        stopAnimation: function() {
-
+        stopAnimation: function(){
             //  This will just top the animation from running, freezing it at its current frame
             // greenJellyfish.animations.stop();
 
@@ -246,17 +246,79 @@ var gameState1 = function(game) {
         },
 
         update: function () {
+            
+
+            // var timer_start = false;
+            // var time = 0;
+            // if (timer_start === true) {
+            //   time++;
+            // if (time === 20) {
+            //   this.scoreText.text = "";
+            //   console.log("it works")
+            // };
+           // }
+
+            function updateText() {
+              this.scoreText.setText();
+              //game.time.events.add(500, this.scoreText.destroy(), this.scoreText);
+
+            };
+
+            /*function destroyText(){
+              this.scoreText.destroy();
+            }*/
+              
+
             this.game.physics.arcade.collide(this.car, this.bro, function(){
-                var state = emotions();
+                  var state = emotions();
             if (state === true){
                 friendLike += 5;
-                console.log(1)
+                this.scoreText=game.add.text(640, 250, 'You must begin your quest to save the princess!', {fontSize:'10px', fill: '#fff'}
+                  );
+                this.scoreText.anchor.set(0.5);
                 arc1();
             }else{
                 friendLike -=5;
-                console.log(2)
+                this.scoreText=game.add.text(640, 250, ' The princess demands you save her!', {fontSize:'10px', fill: '#fff'}
+                  );
+                this.scoreText.anchor.set(0.5);
                 arc1();
             }
+              
+              
+              //pauseButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+              // this.game.paused;
+              game.input.onDown.addOnce(updateText, this);
+              // game.time.events.add(500, this.scoreText.setText(""), this.scoreText);
+              // this.scoreText=game.add.text(640, 250, "Im your brother :-)", {fontSize:'20px', fill: '#fff'});
+              //game.time.events.add(1000, this.scoreText.destroy, this.scoreText);
+
+              //this.scoreText.setText("bye");
+              //this.scoreText = this.game.time.events.add(Phaser.Timer.SECOND * 2, 'ay0o', this);
+
+              timer_start=true;
+
+              //var speech = game.cache.getJSON('brospeech');
+              //console.log(speech);
+              //var convo = speech['conversations']["unfriendly-jan-pre-quest"];
+              //console.log(convo);
+              /*this.game.paused = true;
+              this.activeConversation = convo;
+              this.updateConversationState(this.activeConversation.start);*/
+
+
+              /*this.bro.prototype.stopConversation = function() {
+              this.activeConversation = null;
+              this.activeConversationState = null;
+              this.game.paused = false;
+          };
+
+              this.bro.prototype.updateConversationState = function(stateId) {
+              this.activeConversationState = stateId;
+              // $showConversationState is a jQuery function that manages the DOM
+              $showConversationState(this.activeConversation, stateId);
+          };*/
+
             });
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
@@ -336,23 +398,18 @@ var gameState1 = function(game) {
     console.log(emo2)
     if( emo > .10){
         if(emo < 2.0){
-            console.log("not happy enough")
             return false;
         }else{
-            console.log("Happy enough")
             return true;
         }
     }else{
         if(emo2 > .10 ){
             if(emo2 < 2.0){
-                console.log("not happy enough")
                 return false;
             }else{
-                console.log("Happy enough")
                 return true;
             }
         }else{
-            console.log("default happy")
             return true;
         }
     }
