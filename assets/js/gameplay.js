@@ -1,5 +1,4 @@
-var characterLike = 20
-var friendLike = 30
+
 var playerConnected = true
 var engine = EmoEngine.instance();
 var es = new EmoState();
@@ -126,40 +125,40 @@ function arc5(){
 	}
 }
 
-function emotions(){
-	engine.Connect(); //Connect to EPOC
-	var emo = es.IS_PerformanceMetricGetInstantaneousExcitementScore() 
-	var emo2 = es.AffectivGetExcitementShortTermScore()
-	var emo3 = es.IS_PerformanceMetricGetEngagementBoredomScore()
-	var emo4 = es.IS_PerformanceMetricGetStressScore ()
-	console.log("stress" = emo4)
-	console.log( "boredom"  = emo3) 
-	console.log("shortterm" = emo)
-	console.log("instant" = emo2)
-	if( emo > .10){
-		if(emo < 2.0){
-			console.log("not happy enough")
-			return false;
-		}else{
-			console.log("Happy enough")
-			return true;
-		}
-	}else{
-	 	if(emo2 > .10 ){
-	 		if(emo2 < 2.0){
-	 			console.log("not happy enough")
-	 			return false;
-	 		}else{
-	 			console.log("Happy enough")
-	 			return true;
-	 		}
-	 	}else{
-	 		console.log("default happy")
-	 		return true;
-	 	}
-	}
+// function emotions(){
+// 	engine.Connect(); //Connect to EPOC
+// 	var emo = es.IS_PerformanceMetricGetInstantaneousExcitementScore() 
+// 	var emo2 = es.AffectivGetExcitementShortTermScore()
+// 	var emo3 = es.IS_PerformanceMetricGetEngagementBoredomScore()
+// 	var emo4 = es.IS_PerformanceMetricGetStressScore ()
+// 	console.log("stress" = emo4)
+// 	console.log( "boredom"  = emo3)
+// 	console.log("shortterm" = emo)
+// 	console.log("instant" = emo2)
+// 	if( emo > .10){
+// 		if(emo < 2.0){
+// 			console.log("not happy enough")
+// 			return false;
+// 		}else{
+// 			console.log("Happy enough")
+// 			return true;
+// 		}
+// 	}else{
+// 	 	if(emo2 > .10 ){
+// 	 		if(emo2 < 2.0){
+// 	 			console.log("not happy enough")
+// 	 			return false;
+// 	 		}else{
+// 	 			console.log("Happy enough")
+// 	 			return true;
+// 	 		}
+// 	 	}else{
+// 	 		console.log("default happy")
+// 	 		return true;
+// 	 	}
+// 	}
 	
-}
+// }
 
 emotions()
 

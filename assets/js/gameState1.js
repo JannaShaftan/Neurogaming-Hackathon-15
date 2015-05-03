@@ -1,3 +1,8 @@
+var characterLike = 20
+var friendLike = 30
+var engine = EmoEngine.instance();
+var es = new EmoState();
+
 var gameState1 = function(game) {
 
         this.map = null;
@@ -235,7 +240,18 @@ var gameState1 = function(game) {
         },
 
         update: function () {
-            this.game.physics.arcade.collide(this.car, this.bro, function(){console.log("I'm ur bro lol")});
+            this.game.physics.arcade.collide(this.car, this.bro, function(){
+                var state = emotions();
+            if (state === true){
+                friendLike += 5;
+                console.log(1)
+                arc1();
+            }else{
+                friendLike -=5;
+                console.log(2)
+                arc1();
+            }
+            });
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
 
@@ -301,3 +317,38 @@ var gameState1 = function(game) {
     };
 
     //game.state.add('Game', PhaserGame, true);
+
+    function emotions(){
+    engine.Connect(); //Connect to EPOC
+    var emo = es.IS_PerformanceMetricGetInstantaneousExcitementScore() 
+    var emo2 = es.AffectivGetExcitementShortTermScore()
+    // var emo3 = es.IS_PerformanceMetricGetEngagementBoredomScore()
+    // var emo4 = es.IS_PerformanceMetricGetStressScore ()
+    // console.log("stress" = emo4)
+    // console.log( "boredom"  = emo3)
+    console.log(emo)
+    console.log(emo2)
+    if( emo > .10){
+        if(emo < 2.0){
+            console.log("not happy enough")
+            return false;
+        }else{
+            console.log("Happy enough")
+            return true;
+        }
+    }else{
+        if(emo2 > .10 ){
+            if(emo2 < 2.0){
+                console.log("not happy enough")
+                return false;
+            }else{
+                console.log("Happy enough")
+                return true;
+            }
+        }else{
+            console.log("default happy")
+            return true;
+        }
+    }
+    
+}
