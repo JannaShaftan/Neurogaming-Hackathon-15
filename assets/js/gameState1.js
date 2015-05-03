@@ -41,6 +41,8 @@ var gameState1 = function(game) {
             this.load.image('grass', 'grass.png');
             this.load.spritesheet('car', 'girl.png', 32, 48);
             this.load.spritesheet('bro', 'bro.png', 32, 48);
+            this.game.load.json('brospeech', 'brospeech.json');
+
 
             //  Note: Graphics are Copyright 2015 Photon Storm Ltd.
         },
@@ -218,8 +220,7 @@ var gameState1 = function(game) {
 
         // },
 
-        stopAnimation: function() {
-
+        stopAnimation: function(){
             //  This will just top the animation from running, freezing it at its current frame
             // greenJellyfish.animations.stop();
 
@@ -229,7 +230,66 @@ var gameState1 = function(game) {
         },
 
         update: function () {
-            this.game.physics.arcade.collide(this.car, this.bro, function(){console.log("I'm ur bro lol")});
+
+            // var timer_start = false;
+            // var time = 0;
+            // if (timer_start === true) {
+            //   time++;
+            // if (time === 20) {
+            //   this.scoreText.text = "";
+            //   console.log("it works")
+            // };
+           // }
+
+            function updateText() {
+              this.scoreText.setText("works");
+              //game.time.events.add(500, this.scoreText.destroy(), this.scoreText);
+
+            };
+
+            /*function destroyText(){
+              this.scoreText.destroy();
+            }*/
+
+            this.game.physics.arcade.collide(this.car, this.bro, function(){
+              this.scoreText=game.add.text(640, 250, 'Hi, Im your brother. ', {fontSize:'20px', fill: '#fff'}
+                  );
+              this.scoreText.anchor.set(0.5);
+              //pauseButton = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+              // this.game.paused;
+              game.input.onDown.addOnce(updateText, this);
+              // game.time.events.add(500, this.scoreText.setText(""), this.scoreText);
+              // this.scoreText=game.add.text(640, 250, "Im your brother :-)", {fontSize:'20px', fill: '#fff'});
+              //game.time.events.add(1000, this.scoreText.destroy, this.scoreText);
+
+              //this.scoreText.setText("bye");
+              //this.scoreText = this.game.time.events.add(Phaser.Timer.SECOND * 2, 'ay0o', this);
+
+              timer_start=true;
+
+              //var speech = game.cache.getJSON('brospeech');
+              //console.log(speech);
+              //var convo = speech['conversations']["unfriendly-jan-pre-quest"];
+              //console.log(convo);
+              /*this.game.paused = true;
+              this.activeConversation = convo;
+              this.updateConversationState(this.activeConversation.start);*/
+
+
+              /*this.bro.prototype.stopConversation = function() {
+              this.activeConversation = null;
+              this.activeConversationState = null;
+              this.game.paused = false;
+          };
+
+              this.bro.prototype.updateConversationState = function(stateId) {
+              this.activeConversationState = stateId;
+              // $showConversationState is a jQuery function that manages the DOM
+              $showConversationState(this.activeConversation, stateId);
+          };*/
+
+            });
+
             var flag = false;
             this.physics.arcade.collide(this.car, this.layer, function() {flag = true;})
 
