@@ -1,37 +1,38 @@
 // In which the scene is laid out
 
-var gameState1 = function(game) {};
+var GameState1a = function(game) {};
 
 var cursors;
 var sprite;
 var rightEdge;
-var friend;
 
-gameState1.prototype = {
+GameState1a.prototype = {
   preload: function () {
     //stuff to be loaded
-    this.load.image("star", "assets/img/star.png");
-    this.load.image("friend", "assets/img/star.png");
+    this.load.image("star", "assets/img/friends.png");
+    this.load.image("next", "assets/img/next.png");
   },
 
   create: function () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //sprites to be created
-    sprite = game.add.sprite(0, 300, "star");
+    sprite = game.add.sprite(395, 300, "star");
     game.physics.enable(sprite);
-    friend = game.add.sprite(400, 300, "friend");
-    game.physics.enable(friend);
+
+    //enable right edge
+    rightEdge = game.add.sprite(790, 0, "next");
+    game.physics.enable(rightEdge);
 
     cursors = game.input.keyboard.createCursorKeys();
   },
 
-  talk: function () {
-    game.state.start("talkTo");
+  nextState: function () {
+    game.state.start("GameState2");
   },
 
   update: function () {
-    //run into the friend
-    this.game.physics.arcade.collide(sprite, friend, this.talk);
+    //see if we run over right edge
+    this.game.physics.arcade.collide(sprite, rightEdge, this.nextState);
 
     //move the main sprite
     sprite.body.velocity.x = 0;
