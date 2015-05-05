@@ -1,0 +1,32 @@
+{
+  "name":"Unfriendly Jan Pre-Quest",
+  "key":"unfriendly-jan-pre-quest",
+  "start":"1424791485315",
+  "elements":{
+    "1424791485315":{
+      "npc":"What do you want?",
+      "character":{
+        "1424791491948":{
+          "text":"Have you noticed anything strange going on?",
+          "followup":"1424791562420"
+        },
+        "1424791514604":{
+          "text":"I'm in need of a few things, can you point me to the shops?",
+          "followup":"1424791601252"
+        }
+      }
+    },
+    "1424791562420":{
+      "npc":"What am I, the town crier? Get lost."
+    },
+    "1424791601252":{
+      "npc":"You've got eyes. Find them yourself.",
+      "character": {
+        "120945329342": {
+          "text":"Let's start over.",
+          "followup":"1424791485315"
+        }
+      }
+    }
+  }
+}
